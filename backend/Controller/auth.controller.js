@@ -9,7 +9,10 @@ const Login = async (req, res, next) => {
         return res.status(201).json({
             success: resultat.success,
             message: resultat.message,
-            token: resultat.token
+            token: resultat.token,
+            nom: resultat.nom,
+            prenom: resultat.prenom,
+            role: resultat.role
         })
     } catch (error) {
         next(error)

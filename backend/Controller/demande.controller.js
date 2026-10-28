@@ -19,15 +19,32 @@ const AddDemande = async (req, res, next) => {
 
 const AfficherDemande = async (req, res, next) => {
 
-    const userId = req.user.id;
-
     try {
-        const result = await DemandeService.AfficherDemande(userId);
+        const result = await DemandeService.AfficherDemande();
 
-        return result;
+        return res.status(200).json({
+            success: true,
+            resultat: result
+        })
     } catch (error) {
         next(error)
     }
 }
 
-module.exports = { AfficherDemande, AddDemande }
+const SendDemande = async (req, res, next) => {
+
+    const { id } = req.params;
+
+    try {
+        const resultat = await DemandeService.EnvoyerDemande(id);
+
+        return res.status(200).json({
+            success: resultat.success,
+            message: resultat.message
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = { AfficherDemande, AddDemande, SendDemande };

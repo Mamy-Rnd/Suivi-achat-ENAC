@@ -1,12 +1,15 @@
 /** @format */
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   //etat
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const Connexion = async (e) => {
     e.preventDefault();
@@ -32,7 +35,9 @@ const Login = () => {
       }
 
       localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
       setMessage(data.message);
+      navigate("/dashboard");
 
       console.log(data);
     } catch (error) {
@@ -42,7 +47,7 @@ const Login = () => {
   return (
     <div className='py-20'>
       <div className='shadow w-1/2 mx-auto px-3 py-5 rounded-2xl bg-white'>
-        <h3 className='text-[#186049] text-2xl text-2xl font-semibold text-center my-3'>
+        <h3 className='text-[#186049] text-2xl font-semibold text-center my-3'>
           Se Connecter
         </h3>
         <form className='flex flex-col gap-5 ' onSubmit={Connexion}>

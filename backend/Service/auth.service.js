@@ -64,7 +64,10 @@ const Login = async (email, password) => {
     return {
         success: true,
         message: "Connexion réussie",
-        token: token
+        token: token,
+        nom: user.nom,
+        prenom: user.prenom,
+        role: user.role
     }
 }
 

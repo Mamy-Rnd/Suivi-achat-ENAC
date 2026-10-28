@@ -1,5 +1,6 @@
 /** @format */
 
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
 const Departements = () => {
@@ -39,7 +40,7 @@ const Departements = () => {
   };
   return (
     <div className='py-10'>
-      <div className='shadow bg-white p-5 rounded w-1/2 mx-auto'>
+      <div className='shadow bg-white p-5 rounded w-full mx-auto'>
         <h3 className='text-2xl text-center text-[#186049]'>
           Ajouter un département
         </h3>
@@ -58,9 +59,12 @@ const Departements = () => {
           <button className='text-white p-2 rounded bg-[#186049] '>
             Ajouter
           </button>
-          <a href='/' className='text-center text-[#186049] cursor-pointer'>
+          <Link
+            to='/departement'
+            className='text-center text-[#186049] cursor-pointer'
+          >
             Voir les listes de départements
-          </a>
+          </Link>
         </form>
         {message && <p className='text-red-600 text-center'>{message}</p>}
       </div>
