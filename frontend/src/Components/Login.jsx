@@ -39,7 +39,7 @@ const Login = () => {
       setMessage(data.message);
       navigate("/dashboard");
 
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       console.log(error);
     }
