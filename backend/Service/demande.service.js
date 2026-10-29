@@ -68,4 +68,25 @@ const AccepterDemande = async (id) => {
     }
 }
 
-module.exports = { AjouterDemande, AfficherDemande, EnvoyerDemande, AccepterDemande };
+const DemandeDirecteur = async (page = 1, limit = 6) => {
+
+    const offset = (page - 1) * limit;
+
+    const sql = "SELECT d.id,d.date_demande, d.designation, d.motif, d.quantite, d.status, c.nom_departements FROM demande_achat d INNER JOIN Departements c ON c.id=d.departement_id WHERE d.status='transmise' OR d.status='validee' ORDER BY d.id DESC limit ? offset ? ";
+
+    const [resultat] = await db.query(sql, [limit, offset]);
+
+    const CountDemande = "SELECT COUNT(*) As total FROM demande_achat";
+
+    const [count] = await db.query(CountDemande);
+
+    const total = count[0].total;
+
+    return {
+        success: true,
+        data: resultat,
+        page, limit, total, totalPage: Math.ceil(total / limit)
+    }
+}
+
+module.exports = { AjouterDemande, AfficherDemande, EnvoyerDemande, AccepterDemande, DemandeDirecteur };

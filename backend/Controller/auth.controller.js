@@ -6,6 +6,13 @@ const Login = async (req, res, next) => {
     try {
         const resultat = await AuthService.Login(email, password);
 
+        if (!resultat.success) {
+            return res.status(401).json({
+                success: false,
+                message: resultat.message
+            });
+        }
+
         return res.status(201).json({
             success: resultat.success,
             message: resultat.message,

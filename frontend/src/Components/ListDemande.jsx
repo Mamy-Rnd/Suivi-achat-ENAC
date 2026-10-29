@@ -8,7 +8,6 @@ const ListDemande = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [message, setMessage] = useState("");
-  // const [loading, setLoading] = useState(false);
 
   const limit = 6;
   const role = localStorage.getItem("role");
@@ -16,14 +15,18 @@ const ListDemande = () => {
   const AfficherDemande = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/demande?page=${page}&limit=${limit}`,
+        role === "Directeur" ?
+          `http://localhost:3000/api/demande/directeur?page=${page}&limit=${limit}`
+        : `http://localhost:3000/api/demande?page=${page}&limit=${limit}`,
       );
+
+      /* const response = await fetch(
+        `http://localhost:3000/api/demande?page=${page}&limit=${limit}`,
+      );*/
       const data = await response.json();
 
       setDemandes(data.resultat.data);
       setTotalPage(data.resultat.totalPage);
-      //   setLoading(true);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -33,14 +36,6 @@ const ListDemande = () => {
   useEffect(() => {
     AfficherDemande();
   }, [page]);
-
-  /* if (loading) {
-    return (
-      <div>
-        <h3>Chargement en cours...</h3>
-      </div>
-    );
-  }*/
 
   const Envoyer = async (id) => {
     try {
@@ -56,12 +51,10 @@ const ListDemande = () => {
         setMessage(data.message);
         return;
       }
-      setMessage(data.message);
+      alert(data.message);
 
       //actualiser
       await AfficherDemande();
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -135,10 +128,10 @@ const ListDemande = () => {
                   Transmettre
                 </button>
               )}
-              {role === "Directeur" && (
+              {role === "Directeur" && d.status === "transmise" && (
                 <div className='flex gap-3 my-3'>
                   <button
-                    className='bg-blue-500 p-2 rounded text-white hover:bg-blue-600'
+                    className='bg-blue-500 p-2 rounded text-white hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed'
                     onClick={() => AccepterDemande(d.id)}
                     disabled={d.status === "validee"}
                   >
